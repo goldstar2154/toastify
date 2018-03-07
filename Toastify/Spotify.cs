@@ -318,10 +318,16 @@ namespace Toastify
 
         private static IntPtr GetSpotify()
         {
-            var windowClassName = "SpotifyMainWindow";
+			var procs = System.Diagnostics.Process.GetProcessesByName("Spotify");
 
-            return Win32.FindWindow(windowClassName, null);
-        }
+			foreach (var proc in procs)
+			{
+				if (proc.MainWindowHandle != IntPtr.Zero)
+					return proc.MainWindowHandle;
+			}
+
+			return IntPtr.Zero;
+		}
 
         public static bool IsRunning()
         {
